@@ -1,0 +1,58 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de manipulação de produtos",
+        "description": "Essa aplicação tem como objetivo a manipulação de produtos",
+        "termsOfService": "http://localhost:3000/terms",
+        "contact": {
+            "email": "swagger@gmail.com"
+        }
+    },
+    "version": "1.0.0",
+    "servers": [
+        {
+            "url": "http://localhost:3000/v1",
+            "description": "API de teste"
+        }
+    ],
+    "paths": {
+        "/products": {
+            "post": {
+                "sumary": "Cadastro de produtos",
+                "description": "Essa rota será responsável na criação de um novo produto",
+                "tags": [
+                    "Products"
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/shemas/Product"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "shemas": {
+            "Product": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
