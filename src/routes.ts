@@ -26,24 +26,31 @@ router.get('/products/:id', (req: Request, res: Response) => {
     return res.status(200).json(pruduct);
 });
 
-router.post('/product', async (req: Request, res: Response) => {
+router.post('/products', ensureAuthenticated, async (req: Request, res: Response) => {
+
     const { name, description, price } = req.body;
+    try {
+        const productAlreadyExists = products.find(item => item.name == name)
+        console.log(productAlreadyExists);
 
-    const productAlreadyExists = await products.find(name);
-    if (!productAlreadyExists) {
-        return res.status(401).json({
-            message: `Product ${name} already exists`
-        })
+        if (!productAlreadyExists) {
+            return res.status(401).json({
+                message: 'Product already exists'
+            })
+        }
+
+        const product: ProductsDTO = {
+            name,
+            description,
+            price,
+            id: uuid()
+        }
+
+        products.push(product);
+        res.status(200).json(product);
+    } catch (err) {
+        console.log('ERRO:', err)
     }
-
-    const product: ProductsDTO = {
-        name,
-        description,
-        price,
-        id: uuid()
-    }
-
-    products.push(product);
 })
 
 router.put('/product/:id', ensureAuthenticated, async (req: Request, res: Response) => {

@@ -20,14 +20,41 @@
             "post": {
                 "sumary": "Cadastro de produtos",
                 "description": "Essa rota será responsável na criação de um novo produto",
-                "tags": [
-                    "Products"
-                ],
+                "tags": ["Products"],
+                "security":[{"bearerAuth": []}],
                 "requestBody": {
                     "content": {
                         "aplication/json": {
                             "schema": {
                                 "$ref": "#/components/shemas/Product"
+                            },
+                            "examples": {
+                                "product": {
+                                    "value": {
+                                        "name": "Mouse USB",
+                                        "description": "Produdo com ótima qualidade",
+                                        "price": 24.20
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "Product already exists"
+                    },
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "Object",
+                                    "$ref": "#/components/shemas/Product"
+                                }
                             }
                         }
                     }
@@ -52,6 +79,13 @@
                         "type": "string"
                     }
                 }
+            }
+        },
+        "securitySchemes":{
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
