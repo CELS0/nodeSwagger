@@ -16,7 +16,7 @@ const products: ProductsDTO[] = [];
 
 router.get('/products/findByname', (req: Request, res: Response) => {
     const { name } = req.query;
-    const pruduct = products.filter(item => item.name == name);
+    const pruduct = products.filter(item => item.name.includes(String(name)));
     return res.status(200).json(pruduct);
 });
 
@@ -44,8 +44,6 @@ router.post('/products', ensureAuthenticated, async (req: Request, res: Response
             price,
             id: uuid()
         }
-        console.log("OOOOO",product);
-
         products.push(product);
         res.status(200).json(product);
     } catch (err) {
@@ -53,19 +51,19 @@ router.post('/products', ensureAuthenticated, async (req: Request, res: Response
     }
 })
 
-router.put('/product/:id', ensureAuthenticated, async (req: Request, res: Response) => {
+router.put('/products/:id', ensureAuthenticated, async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, description, price } = req.body;
 
     const productIndex = products.findIndex(item => item.id === id);
 
-    if (!productIndex) {
+    if (productIndex) {
         return res.status(400).json({
             message: `Product ${name} already exists`
         })
     }
 
-    const product: ProductsDTO = Object.assign({ name, description, price });
+    const product: ProductsDTO = Object.assign({ id,name, description, price });
 
     products[productIndex] = product;
 
