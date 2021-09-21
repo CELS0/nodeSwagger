@@ -31,9 +31,8 @@ router.post('/products', ensureAuthenticated, async (req: Request, res: Response
     const { name, description, price } = req.body;
     try {
         const productAlreadyExists = products.find(item => item.name == name)
-        console.log(productAlreadyExists);
 
-        if (!productAlreadyExists) {
+        if (productAlreadyExists) {
             return res.status(401).json({
                 message: 'Product already exists'
             })
@@ -45,6 +44,7 @@ router.post('/products', ensureAuthenticated, async (req: Request, res: Response
             price,
             id: uuid()
         }
+        console.log("OOOOO",product);
 
         products.push(product);
         res.status(200).json(product);

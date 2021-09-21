@@ -24,9 +24,9 @@
                 "security":[{"bearerAuth": []}],
                 "requestBody": {
                     "content": {
-                        "aplication/json": {
+                        "application/json": {
                             "schema": {
-                                "$ref": "#/components/shemas/Product"
+                                "$ref": "#/components/schemas/Product"
                             },
                             "examples": {
                                 "product": {
@@ -53,18 +53,48 @@
                             "aplication/json": {
                                 "schema": {
                                     "type": "Object",
-                                    "$ref": "#/components/shemas/Product"
+                                    "$ref": "#/components/schemas/Product"
                                 }
                             }
                         }
                     }
                 }
             }
+        },
+        "/products/findByname":{
+            "get":{
+                "description": "Busca pelo nome do produto",
+                "summary": "Busca de um produto pelo nome",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do produto para busca",
+                        "required": true
+                    }
+                ],
+                "responses":{
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "Object",
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
     },
     "components": {
-        "shemas": {
+        "schemas": {
             "Product": {
+                "type":"object",
                 "properties": {
                     "name": {
                         "type": "string"
